@@ -1,0 +1,31 @@
+//- Navleen Saini
+//- 3176358
+
+extends layout
+
+block content
+  .max-w-xl.mx-auto.p-6.bg-gray-800.rounded-lg.shadow-lg
+
+    .space-y-4
+      .flex.justify-between.py-2.border-b.border-gray-700
+        strong Name:
+        span.text-white #{user.name}
+
+      .flex.justify-between.py-2.border-b.border-gray-700
+        strong Email:
+        span.text-white #{user.email}
+
+      .flex.justify-between.py-2.border-b.border-gray-700
+        strong Plan:
+        span.text-white #{user.planId || user.plan || 'N/A'}
+
+      .flex.justify-between.py-2.border-b.border-gray-700
+        strong Price:
+        span.text-white #{(typeof user.planPrice === 'number' && user.planPrice !== null) ? user.currency + user.planPrice.toFixed(2) : user.planPrice}
+
+      .flex.justify-between.py-2
+        strong Registered On:
+        span.text-white #{new Date(user.createdAt).toLocaleString()}
+
+    .mt-8
+      a(href='/contacts', class="inline-block bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded transition") Back to All Contacts

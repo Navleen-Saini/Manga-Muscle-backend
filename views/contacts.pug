@@ -1,0 +1,84 @@
+//- Navleen Saini
+//- 3176358
+
+extends layout
+
+block content
+  .max-w-6xl.mx-auto.p-6
+
+    .flex.justify-between.items-center.mb-6
+      h1.text-3xl.font-bold.text-white Contacts List
+      a(href="/registration-plans", class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded transition") + New Registration
+
+    if !users || users.length === 0
+      .bg-yellow-900.text-yellow-100.p-4.rounded.mb-4 No registered users found.
+    else
+      .overflow-x-auto.bg-gray-800.rounded-lg.shadow-xl
+        table.w-full.table-auto.text-sm.text-left
+          thead(class="bg-gray-700 text-gray-300 uppercase font-medium")
+            tr
+              th.px-6.py-4 Name
+              th.px-6.py-4 Email
+              th.px-6.py-4 Plan
+              th.px-6.py-4 Price
+              th.px-6.py-4 Registered
+              th.px-6.py-4.text-center Actions
+          tbody(class="divide-y divide-gray-700")
+            each user in users
+              tr(class="hover:bg-gray-700 transition-colors")
+                td.px-6.py-4
+                  a(href='/contacts/' + user._id, class="text-white font-medium hover:text-green-400 hover:underline") #{user.name}
+                td.px-6.py-4.text-gray-300 #{user.email}
+                td.px-6.py-4
+                  - var planClass = user.planId === 'platinum' ? 'bg-blue-900 text-blue-200' : user.planId === 'gold' ? 'bg-yellow-900 text-yellow-200' : 'bg-gray-600 text-gray-200'
+                  span(class=`px-2 py-1 rounded text-xs font-semibold ${planClass}`) #{user.planId || 'Basic'}
+                td.px-6.py-4.text-gray-300 #{(typeof user.planPrice === 'number' && user.planPrice !== null) ? '$' + user.planPrice.toFixed(2) : 'N/A'}
+                td.px-6.py-4.text-gray-400 #{new Date(user.createdAt).toLocaleDateString()}
+                td.px-6.py-4.flex.justify-center.space-x-3
+                  //- Update button
+                  button.edit-btn(
+                    class="text-blue-400 hover:text-blue-300",
+                    data-id=user._id,
+                    data-name=user.name,
+                    data-email=user.email,
+                    data-plan=user.planId
+                  )
+                    svg(class="w-5 h-5", fill="none", stroke="currentColor", viewBox="0 0 24 24")
+                      path(stroke-linecap="round", stroke-linejoin="round", stroke-width="2", d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z")
+                  
+                  //- Delete button
+                  button.delete-btn(
+                    class="text-red-400 hover:text-red-300",
+                    data-id=user._id
+                  )
+                    svg(class="w-5 h-5", fill="none", stroke="currentColor", viewBox="0 0 24 24")
+                      path(stroke-linecap="round", stroke-linejoin="round", stroke-width="2", d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16")
+
+    //- Edit Modal
+    #editModal(class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50")
+      .bg-gray-800.p-8.rounded-lg.shadow-2xl.w-full.max-w-md.border.border-gray-700
+        h2.text-2xl.font-bold.text-white.mb-4 Update Contact
+        
+        form#editForm(class="space-y-4")
+          input#editUserId(type="hidden", name="id")
+          
+          div
+            label.block.text-gray-400.mb-1 Name
+            input#editName(type="text", name="name", class="w-full bg-gray-700 text-white rounded p-2 border border-gray-600 focus:border-green-500 outline-none")
+          
+          div
+            label.block.text-gray-400.mb-1 Email
+            input#editEmail(type="email", name="email", class="w-full bg-gray-700 text-white rounded p-2 border border-gray-600 focus:border-green-500 outline-none")
+          
+          div
+            label.block.text-gray-400.mb-1 Plan
+            select#editPlan(name="planId", class="w-full bg-gray-700 text-white rounded p-2 border border-gray-600 focus:border-green-500 outline-none")
+              option(value="basic") Basic
+              option(value="gold") Gold
+              option(value="platinum") Platinum
+
+          .flex.justify-end.space-x-3.mt-6
+            button#cancelEdit(type="button", class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500 transition") Cancel
+            button(type="submit", class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500 transition") Save Changes
+
+    script(src="/js/contact-list-actions.js")

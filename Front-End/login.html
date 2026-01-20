@@ -1,0 +1,270 @@
+<!--Name: Navleen Saini
+  StudID: 3176358 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        .mainHeading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2c2c2c;
+            padding: 15px 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .heading h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #00ff99;
+        }
+
+        .menu {
+            position: relative;
+        }
+
+        .menubtn {
+            background-color: #00ff99;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .menubtn:hover {
+            background-color: #00cc7a;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+            z-index: 10;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu a {
+            color: #f5f5f5;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #00ff99;
+            color: #1a1a1a;
+        }
+        
+        .menu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 80px);
+        }
+
+        .login-box {
+            background-color: #2c2c2c;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #444;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            color: #00ff99;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: #f5f5f5;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #00ff99;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #00cc7a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #00ff99;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .register-link a {
+            color: #00ff99;
+            text-decoration: none;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="mainHeading">
+        <div class="heading">
+            <h1>Workout Insight</h1>
+        </div>
+        <div class="menu">
+            <button class="menubtn">Menu</button>
+            <div class="dropdown-menu">
+                <a href="index.html">Home</a>
+                <a href="RegForm.html">Register</a>
+                <a href="regPlans.html">Plans</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="login-container">
+        <div class="login-box">
+            <h2>User Login</h2>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Log In
+                </button>
+            </form>
+
+            <p id="message"></p>
+            
+            <p class="register-link">
+                Don't have an account? 
+                <a href="/registration-form">Register Here</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+
+        function displayMessage(text, type = 'info') {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = text;
+            if (type === 'success') {
+                messageElement.style.color = '#00ff99';
+            } else if (type === 'error') {
+                messageElement.style.color = '#ff6666';
+            } else {
+                messageElement.style.color = '#fff';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            displayMessage('Logging in...', 'info');
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    displayMessage('Success! Redirecting to contacts...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/contacts';
+                    }, 1000);
+                } else {
+                    displayMessage(result.error || 'Login failed. Please check your credentials.', 'error');
+                }
+            } catch (error) {
+                console.error('Network or server error:', error);
+                displayMessage('An unexpected error occurred. Try again later.', 'error');
+            }
+        });
+
+        document.querySelector('.menubtn').addEventListener('click', () => {
+            const dropdown = document.querySelector('.dropdown-menu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+    </script>
+</body>
+</html>

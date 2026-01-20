@@ -1,0 +1,208 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.mainHeading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vmin;
+    width: 100vw;
+    height: 8vmin;
+    background-color: #111827;
+    border-bottom: 2px solid #22c55e;
+    gap: 35vmin;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.mainHeading h1{
+    color: #d1d5db;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: text-shadow 0.3s ease;
+}
+.mainHeading h1:hover{
+    text-shadow: 0px 0px 6px #22c55e;
+}
+
+.menubtn{
+    background-color: #22c55e;
+    color: #111827;
+    height: 4.4vmin;
+    width: 13vmin;
+    border-radius: 25px;
+    font-size: 3vmin;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.menubtn:hover {
+    background-color: #16a34a;
+    transform: scale(1.05);
+}
+.menu{
+    position: relative;
+    display: inline-block;
+}
+.dropdown-menu{
+    display: none;
+    position: absolute;
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    font-size: 2.5vmin;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.dropdown-menu a{
+    text-decoration: none;
+    color: #d1d5db;
+    padding: 0.6rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu a:hover{
+    color: #22c55e;
+    font-size: 3vmin;
+}
+
+.menu:hover .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2vmin;
+    width: 14vmin;
+    height: 24vmin;
+    padding: 0.5rem 0;
+}
+
+.login-btn {
+    text-decoration: none;
+    background-color: transparent;
+    color: #00ff99;
+    border: 2px solid #00ff99;
+    padding: 10px 10px;
+    border-radius: 5px; 
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #00ff99;
+    color: #1a1a1a;
+}
+
+.muscle-section {
+    margin-top: 5vmin;
+    display: flex;
+    justify-content: center;
+    column-gap: 100vmin;
+    row-gap: 5vmin;
+    flex-wrap: wrap;
+    padding-bottom: 5vmin;
+}
+
+.muscle-card {
+    background-color: #1f2937;
+    border: 2px solid #22c55e;
+    border-radius: 15px;
+    width: 18vmin;
+    height: 20vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.muscle-card:hover {
+    transform: scale(1.07);
+    background-color: #111827;
+}
+
+.muscle-card img {
+    width: 8vmin;
+    height: 8vmin;
+}
+
+.muscle-card p {
+    margin-top: 1vmin;
+    color: #d1d5db;
+    font-weight: bold;
+}
+
+.muscle-card.last-visited {
+    border: 3px solid #ff9900; /* Use a distinct color like orange for a reminder */
+    box-shadow: 0 4px 15px rgba(255, 153, 0, 0.7);
+}
+
+h1#muscleName {
+color: #22c55e;
+font-size: 5vmin;
+margin: 4vmin 0;
+text-transform: uppercase;
+letter-spacing: 2px;
+text-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+}
+
+#exerciseList {
+width: 90%;
+max-width: 1200px;
+}
+
+.exercise-card {
+background-color: #1f2937;
+border: 1px solid #374151;
+padding: 3vmin;
+border-radius: 15px;
+margin-bottom: 3vmin;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exercise-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
+.exercise-card h2 {
+color: #22c55e;
+margin-top: 0;
+font-size: 3.5vmin;
+border-bottom: 2px solid #374151;
+padding-bottom: 1vmin;
+margin-bottom: 2vmin;
+}
+
+.details-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2vmin;
+margin-bottom: 3vmin;
+}
+
+.detail-item {
+padding: 1.5vmin;
+background-color: #111827;
+border-radius: 8px;
+}
+
+.detail-item b {
+color: #22c55e;
+display: block;
+margin-bottom: 0.5vmin;
+font-size: 2vmin;
+}
+
+.detail-item span {
+font-size: 2.2vmin;
+}
+
+.instructions p {
+line-height: 1.6;
+font-size: 2.2vmin;
+border-top: 1px dashed #374151;
+padding-top: 2vmin;
+}

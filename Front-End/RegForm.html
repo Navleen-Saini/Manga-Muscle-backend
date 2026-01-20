@@ -1,0 +1,262 @@
+<!--Name: Navleen Saini
+  StudID: 3176358 -->
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Registration</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="mainHeading">
+        <div class="heading">
+        <h1>Workout Insight</h1>
+        </div>
+        <div class="menu">
+            <button class="menubtn">Menu</button>
+            <div class="dropdown-menu">
+                <a href="index.html">Home</a>
+                <a href="contacts">Contacts</a>
+                <a href="regPlans.html">Plans</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Card -->
+    <div class="w-full max-w-lg bg-gray-800 p-8 sm:p-10 mt-10 rounded-xl shadow-2xl border border-green-700/50">
+        <h1 class="text-3xl font-extrabold text-white text-center mb-2">
+            Start Your Workout Journey
+        </h1>
+        <p class="text-gray-400 text-center mb-8">
+            Register below to access personalized training plans.
+        </p>
+
+        <!-- Message Box Container -->
+        <div id="message-container"></div>
+
+        <form id="registration-form" class="space-y-6">
+
+            <!-- Name Input -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="Enter your full name"
+                    class="w-full pl-4 pr-4 py-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150"
+                />
+            </div>
+
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="you@example.com"
+                    class="w-full pl-4 pr-4 py-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150"
+                />
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    minlength="8"
+                    placeholder="Minimum 8 characters"
+                    class="w-full pl-4 pr-4 py-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150"
+                />
+            </div>
+
+            <!-- Two Hidden inputs to handle plan ID and currency for database and bill -->
+            <input type="hidden" id="plan-id-input" name="planId" value="">
+            <input type="hidden" id="plan-price-input" name="planPrice" value="">
+
+            <!-- Hidden Download Button-->
+            <button id="download-btn" class="hidden w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-gray-900 transition duration-200 bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
+            type="button">
+                Download Invoice
+            </button>
+
+            <!-- Submit Button -->
+            <button
+                type="submit" id="submit-button"
+                class="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-gray-900 transition duration-200 bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
+            >
+                Register & Start Training
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-gray-500">
+            Already a member? <a href="/login" class="font-medium text-green-500 hover:text-green-400">Sign in here</a>
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const form = document.getElementById('registration-form');
+        const messageContainer = document.getElementById('message-container');
+        const submitButton = document.getElementById('submit-button');
+        const API_ENDPOINT = '/register'; 
+        const planID = document.getElementById("plan-id-input");
+        const downloadBtn = document.getElementById("download-btn");
+        const planPriceInput = document.getElementById("plan-price-input");
+
+        function displayMessage(type, text) {
+            const isSuccess = type === 'success';
+            const bgColor = isSuccess ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700';
+            const iconSvg = isSuccess 
+                ? '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+                : '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>';
+            
+            messageContainer.innerHTML = `
+                <div class="flex items-center p-4 mb-6 text-sm rounded-lg border ${bgColor}" role="alert">
+                    ${iconSvg}
+                    <span class="font-medium">${text}</span>
+                </div>
+            `;
+        }
+        
+        function setLoading(isLoading) {
+            submitButton.disabled = isLoading;
+            if (isLoading) {
+                submitButton.classList.add('bg-gray-500', 'cursor-not-allowed');
+                submitButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Processing...';
+            } else {
+                submitButton.classList.remove('bg-gray-500', 'cursor-not-allowed');
+                submitButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                submitButton.textContent = 'Register & Start Training';
+            }
+        }
+
+        function isValidEmail(email){
+            const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailReg.test(email);
+        }
+
+        function getPlanId(){
+            const params = new URLSearchParams(window.location.search);
+            return params.get('planId');
+        }
+
+        function getCurrencyCode(){
+            const params = new URLSearchParams(window.location.search);
+            return params.get('currency');
+        }
+
+        window.addEventListener('load', () => {
+            const planIdFromURL = getPlanId();
+            if (planIdFromURL) {
+                planID.value = planIdFromURL;
+            }
+
+            const planPriceFromStorage = localStorage.getItem("selectedPlanPrice"); 
+            if (planPriceFromStorage) {
+                planPriceInput.value = planPriceFromStorage;
+    }
+        });
+
+        function generateBill(user, selectedPlan, selectedPriceDisplay){
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const safePrice = selectedPriceDisplay
+            .normalize('NFKD').replace(/[^\x00-\x7F]/g, '')
+            .replace(/\s+/g, ' ').trim();
+            const currCode = getCurrencyCode();
+
+            doc.setFontSize(23);
+            doc.text("Workout Registration Bill", 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Customer: ${user.name}`, 20, 40);
+            doc.text(`Email: ${user.email}`, 20, 50);
+            doc.text("-----------------------------------", 20, 60);
+            doc.text(`Plan Selected: ${selectedPlan.toUpperCase()}`, 20, 70);
+
+            doc.text(`Total Due: ${currCode} ${safePrice}`, 20, 80);
+
+            doc.save(`Bill_for__${user.name}_type_${selectedPlan}S.pdf`);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            messageContainer.innerHTML = '';
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            //adding cient side validations
+            if(!isValidEmail(payload.email)){
+                displayMessage("error", "please enter a valid email");
+                return;
+            }
+            if(!payload.password || payload.password.length < 8){
+                displayMessage("error","please Enter minimum of 8 characters");
+                return;
+            }    
+            if (!payload.planId) {
+                displayMessage("error", "Please select a workout plan.");
+                return;
+            }
+            setLoading(true);
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayMessage('success', data.message || 'Registration successful! Welcome to the team.');
+                    
+                    const selectedPlan = localStorage.getItem("selectedPlanId");
+                    const selectedPriceDisplay = localStorage.getItem("selectedPriceDisplay");
+                  
+                    downloadBtn.classList.remove("hidden");
+                    downloadBtn.onclick = () => {
+                    generateBill(payload, selectedPlan, selectedPriceDisplay);
+                    } 
+                    // As i got these in my Mongo Db database so no more needed, and will remove from loccal storage
+                    localStorage.removeItem("selectedPlanPrice");
+                    localStorage.removeItem("selectedPlanId");
+                    localStorage.removeItem("selectedPriceDisplay");
+
+                } else {
+                    displayMessage('error', data.error || 'Registration failed due to server error.');
+                }
+
+            } catch (error) {
+                console.error('Network Error:', error);
+                displayMessage('error', 'Cannot connect to the server. Please check the backend status.');
+            } finally {
+                setLoading(false);
+            }
+        });
+    </script>
+</body>
+</html>
