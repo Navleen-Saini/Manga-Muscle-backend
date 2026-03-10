@@ -5,8 +5,9 @@
   "license": "ISC",
   "author": "Navleen Saini",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "mainApp.js",
   "scripts": {
+    "start": "node mainApp.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
