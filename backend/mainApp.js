@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin : "https://navleen-saini.github.io/Manga-Muscle-frontend/",
+  origin : "https://navleen-saini.github.io",
   credentials : true
   }));
 
@@ -36,7 +36,7 @@ app.use(session({
 
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 3,
-    sameSite: none,
+    sameSite: "none",
     secure: true
   }
 }));
@@ -45,5 +45,5 @@ app.use("/api", authRoutes);
 app.use("/api", contactRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at ${PORT}`);
 });
