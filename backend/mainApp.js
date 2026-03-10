@@ -20,9 +20,10 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
-
-app.use(express.static(path.join(__dirname, "Front-End")));
+app.use(cors({
+  origin : "https://navleen-saini.github.io/Manga-Muscle-frontend/",
+  credentials : true
+  }));
 
 app.use(session({
   secret: process.env.COOKIE_SECRET,
@@ -34,7 +35,9 @@ app.use(session({
   }),
 
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 3
+    maxAge: 1000 * 60 * 60 * 24 * 3,
+    sameSite: none,
+    secure: true
   }
 }));
 
